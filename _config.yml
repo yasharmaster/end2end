@@ -15,30 +15,32 @@ sass:
   style: compressed # expanded
 
 # SEO settings
-title: end2end
-description: "A free Jekyll theme for download"
-keywords: "Jekyll, theme, free, download, SEO, blog, web"
-url: http://nandomoreira.me
-baseurl: "/end2end"
+title: Yash Sharma 
+description: "IT Student at IIIT Allahabad"
+keywords: "Yash, Sharma, Programmer, Developer, IIIT, Allahabad"
+url: http://yashsharma.tech
+baseurl: ""
 # baseurl: ""
 
 # google_analytics: UA-52446115-1
-repo: http://github.com/nandomoreirame/end2end
-disqus_shortname: "nandothemes"
-disqus_site_shortname: "nandothemes"
+repo: http://github.com/yasharmaster/yasharmaster.github.io
+disqus_shortname: "www-yashsharma-tech"
+disqus_site_shortname: "www-yashsharma-tech"
 
 # Author settings
 author:
-  name      : Fernando Moreira
-  job       : Frontend Engineer
-  bio       : "Enthusiast performance, responsive design and usability, always looking for the best project and good coffee."
+  name      : Yash Sharma
+  job       : Software Developer
+  bio       : "Participating in Google Summer of Code 2017 for InterMine. Pursuing Dual Degree (IT) at IIIT Allahabad."
   thumb     : /images/author.jpg
-  email     : nandomoreira.me@gmail.com
-  url       : http://nandomoreira.me
-  github    : http://github.com/nandomoreirame
-  twitter   : http://twitter.com/nandomoreirame
-  facebook  : http://facebook.com/fernando.dev
-  linkedin  : http://linkedin.com/in/nandomoreirame
+  email     : yasharmaster@gmail.com
+  url       : http://yashsharma.tech
+  github    : http://github.com/yasharmaster
+  twitter   : http://twitter.com/yashsharma260
+  facebook  : http://facebook.com/yasharma.95
+  linkedin  : http://linkedin.com/in/yash-sharma-317367b9
+  resume    : https://github.com/yasharmaster/personal-site-old/raw/master/profile/YashResume.pdf
+
 
 # navbar pages
 navbar:

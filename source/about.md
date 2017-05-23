@@ -4,8 +4,14 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
+Hi! I am Yash.
 
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
+I am participating in Google Summer of Code 2017 as Student Software Developer for [InterMine](http://intermine.org).
 
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+I'm pursuing a Dual Degree (BTech + MTech) in Information Technology from [IIIT Allahabad](http://iiita.ac.in/).
+
+I am interested in Software Developemt, Web Development, Machine Learning and Data Analytics. I have worked with technologies like Django, Ruby on Rails and Android. I have programming experience in Python, Java, C, C++ and Ruby. My projects are on [Github](http://github.com/yasharmaster).
+
+In my free time, I listen to music and read history & mythology.
+
+Feel free to contact me on [Facebook](http://www.facebook.com/yasharma.95) or [Twitter](http://twitter.com/yashsharma260) or simply send an [email](mailto:yasharmaster@gmail.com). See you soon!

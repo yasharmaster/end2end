@@ -4,16 +4,20 @@ layout: home
 
 <section class="hero">
 
-  <div class="hero-inner container">
+  <div style="color:#fff;" class="hero-inner container">
 
     <img src="{{ site.author.thumb | prepend: site.baseurl }}" alt="author thumb" class="dot">
-    <h1>Hello!..</h1>
-    <h3>I'm <strong itemprop="name">{{ site.author.name }}</strong>, a <em itemprop="jobTitle">{{ site.author.job }}</em>.</h3>
+    <h1>Hi ! I am <strong itemprop="name">{{ site.author.name }}</strong>.</h1>
+    
+	<h2>Eat. Code. Lift. Sleep. Repeat.</h2>
+
+<!--     <h3>I'm <strong itemprop="name">{{ site.author.name }}</strong>, an <em itemprop="jobTitle">{{ site.author.job }}</em>.</h3>
+ -->    
     <h3>{{ site.author.bio }}</h3>
 
-    <a href="{{ '/about' | prepend: site.baseurl }}" class="btn btn-ghost">about</a>
-    <a href="{{ '/blog' | prepend: site.baseurl }}" class="btn btn-ghost">blog</a>
-
+    <a href="{{ '/about' | prepend: site.baseurl }}" class="btn btn-ghost">About</a>
+    <a href="{{ '/blog' | prepend: site.baseurl }}" class="btn btn-ghost">Blog</a>
+    <a href="{{ site.author.resume }}" class="btn btn-ghost">Resume</a>
     {% include social.html %}
 
   </div>
