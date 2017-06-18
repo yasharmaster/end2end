@@ -31,7 +31,9 @@ Presently the data model in InterMine is stored in an external [XML file](https:
 {% endhighlight %}
 
 While developing Neo4j prototype of InterMine, to reduce the dependency on external files, it was decided to store the schema in the database itself. Neo4j being a graph database stores data in the form of Nodes and directed Relationships. This brought up two issues:
+
 1. The data model must to be in the form of a graph itself so that it can be stored in the Neo4j database.
+
 2. The data model should represent all the existing Nodes in the database and the Relationships among them.
 
 Since the data model is a graph and it stores information about the InterMine graph, it can be called a metagraph.
@@ -62,7 +64,7 @@ Each `:RelType` node is uniquely identified by its type property. So, for all th
 
 #### Relationships in MetaGraph
 
-Metagraph should not only contain information about the properties of various entities in the IM graph but it should also contain store how different types of nodes are connected to each other. To represent this information, we make use of Neo4j relationships.
+Metagraph should not only contain information about the properties of various entities in the IM graph but it should also store how different types of nodes are connected to each other. To represent this information, we make use of Neo4j relationships.
 
 We know that each `:RelType` node represents a type of relationships that exist in the IM graph. Now, we create two outgoing relationships/edges from each `:RelType` node - `:StartNodeType` and `:EndNodeType`. These edges end on a `:NodeType` node.
 
@@ -108,3 +110,5 @@ CASE
     WHEN rel.properties IS NOT NULL AND rel_keys IS NULL THEN rel.properties
     WHEN rel.properties IS NOT NULL AND rel_keys IS NOT NULL THEN apoc.coll.union(rel.properties, rel_keys)
 {% endhighlight %}
+
+Once schema is generated and stored in the database, it can be accessed by the data loader at runtime. By enforing the rules of the schema, the loader maintains data integrity while loading new data to the database. You review the code related to metadata in [org.intermine.neo4j.metadata](https://github.com/intermine/neo4j/tree/dev/src/org/intermine/neo4j/metadata) package.
