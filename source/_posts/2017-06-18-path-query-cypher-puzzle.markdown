@@ -5,9 +5,9 @@ date:   2017-06-18 08:00:00
 comments: true
 categories: jekyll
 ---
-The PathQuery To Cypher Conversion topic, is too big to be covered in a single post, so I'll write it in multiple parts. In this part, I'll give you a brief overview about Path Query & Cypher, and will give you an insight on how we plan to query the InterMine Neo4j database.
+The PathQuery To Cypher Conversion topic is too big to be covered in a single post, so I'll write it in multiple parts. In this part, I'll give you a brief overview about Path Query & Cypher, and will give you an insight on how we plan to query the InterMine Neo4j database.
 
-![Metagraph](/images/intermine-neo4j.png)
+![InterMine Neo4j Logo](/images/intermine-neo4j.png)
 
 ## Introduction
 
