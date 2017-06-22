@@ -12,4 +12,5 @@ group :development do
   gem 'kramdown', group: [:jekyll_plugins]
   gem 'json', '~> 2'
   gem 'jekyll-seo-tag'
+  gem 'jekyll-sitemap'
 end
