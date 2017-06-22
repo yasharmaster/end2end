@@ -21,7 +21,7 @@ sass:
 title: Yash Sharma 
 description: "IT Student at IIIT Allahabad"
 keywords: "Yash, Sharma, Programmer, Developer, IIIT, Allahabad"
-url: http://yashsharma.tech
+url: http://yasharmaster.github.io
 baseurl: ""
 # baseurl: ""
 
@@ -37,7 +37,7 @@ author:
   bio       : "Google Summer of Code 2017 for InterMine. Dual Degree (IT) at IIIT Allahabad."
   thumb     : /images/author.jpg
   email     : yasharmaster@gmail.com
-  url       : http://yashsharma.tech
+  url       : http://yasharmaster.github.io
   github    : http://github.com/yasharmaster
   twitter   : http://twitter.com/yashsharma260
   facebook  : http://facebook.com/yasharma.95
