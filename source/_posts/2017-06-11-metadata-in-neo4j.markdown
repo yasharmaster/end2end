@@ -109,6 +109,9 @@ CASE
     WHEN rel.properties IS NULL AND rel_keys IS NOT NULL THEN rel_keys
     WHEN rel.properties IS NOT NULL AND rel_keys IS NULL THEN rel.properties
     WHEN rel.properties IS NOT NULL AND rel_keys IS NOT NULL THEN apoc.coll.union(rel.properties, rel_keys)
+END
 {% endhighlight %}
 
-Once schema is generated and stored in the database, it can be accessed by the data loader at runtime. By enforing the rules of the schema, the loader maintains data integrity while loading new data to the database. You review the code related to metadata in [org.intermine.neo4j.metadata](https://github.com/intermine/neo4j/tree/dev/src/org/intermine/neo4j/metadata) package.
+Once schema is generated and stored in the database, it can be accessed by the data loader at runtime. By enforing the rules of the schema, the loader maintains data integrity while loading new data to the database. The code for generating and querying metadata in Neo4j is developed in the [org.intermine.neo4j.metadata](https://github.com/intermine/neo4j/tree/dev/src/org/intermine/neo4j/metadata) package in [InterMine/Neo4j](https://github.com/intermine/neo4j) repository.
+
+Perhaps in a later post, I will discuss the [org.intermine.neo4j.metadata](https://github.com/intermine/neo4j/tree/dev/src/org/intermine/neo4j/metadata) package and will write a small tutorial on how you can use it generate & query your own Neo4j data model. So, stay tuned!

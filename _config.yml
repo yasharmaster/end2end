@@ -2,7 +2,9 @@
 permalink   : /blog/:year/:title/
 markdown    : kramdown
 highlighter : pygments
-gems: [jekyll-paginate]
+gems: 
+  - jekyll-paginate
+  - jekyll-seo-tag
 
 paginate: 3
 paginate_path: "/blog/page/:num/"
@@ -41,6 +43,13 @@ author:
   linkedin  : http://linkedin.com/in/yash-sharma-317367b9
   resume    : https://github.com/yasharmaster/personal-site-old/raw/master/profile/YashResume.pdf
 
+social:
+  name: Yash Sharma
+  links:
+    - https://twitter.com/yashsharma260
+    - https://www.facebook.com/yasharma.95
+    - http://linkedin.com/in/yash-sharma-317367b9
+    - https://github.com/yasharmaster
 
 # navbar pages
 navbar:
