@@ -3,7 +3,12 @@ layout: post
 title:  "My GSoC Journey Begins"
 date:   2017-05-23 13:46:52
 comments: true
-categories: jekyll
+categories: gsoc
+tags:
+    - intermine
+    - neo4j
+    - gsoc
+    - database
 ---
 Hello! This summer started rather nicely for me as I was accepted into Google Summer of Code. The deadline to submit the proposals was 3rd April and results were declared on 4th May. I was anxiously waiting for the results during this whole period and the results made me super happy. I dreamt of this moment since last year. I will be working for [InterMine](http://intermine.org/) organisation throughout the summer.
 

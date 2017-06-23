@@ -3,9 +3,17 @@ layout: post
 title:  "The PathQuery To Cypher Puzzle - Part 1"
 date:   2017-06-18 08:00:00
 comments: true
-categories: jekyll
+categories: gsoc
+tags:
+    - intermine
+    - neo4j
+    - PathQuery
+    - gsoc
+    - Cypher
+    - conversion
+    - database
 ---
-The PathQuery To Cypher Conversion topic is too big to be covered in a single post, so I'll write it in multiple parts. In this part, I'll give you a brief overview about Path Query & Cypher, and will give you an insight on how we plan to query the InterMine Neo4j database.
+The conversion of PathQuery To Cypher effectively & accurately is crucial for the Neo4j prototype of InterMine. This post provides a brief overview of Path Query & Cypher and gives you an insight on how we plan to query the InterMine Neo4j database. In upcoming posts, the conversion approach will be discussed.
 
 ![InterMine Neo4j Logo](/images/intermine-neo4j.png)
 

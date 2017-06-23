@@ -3,7 +3,15 @@ layout: post
 title:  "Metadata in Neo4j"
 date:   2017-06-11 13:46:52
 comments: true
-categories: jekyll
+categories: gsoc
+tags:
+    - intermine
+    - gsoc
+    - neo4j
+    - metadata
+    - metagraph
+    - schmea
+    - database
 ---
 This post describes how the Metagraph is used to store the schema in the Neo4j database.
 
