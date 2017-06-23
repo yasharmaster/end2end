@@ -42,7 +42,6 @@ author:
   twitter   : http://twitter.com/yashsharma260
   facebook  : http://facebook.com/yasharma.95
   linkedin  : http://linkedin.com/in/yash-sharma-317367b9
-  resume    : https://github.com/yasharmaster/personal-site-old/raw/master/profile/YashResume.pdf
 
 social:
   name: Yash Sharma
@@ -56,8 +55,8 @@ social:
 navbar:
   - slug: about
     title: About
-  # - slug: resume
-  #   title: Resume
+  - slug: resume
+    title: Resume
   # - slug: skills
   #   title: Skills
   - slug: blog
