@@ -68,15 +68,16 @@ We cannot just use the component name as the variable name. This is because a co
 
 To create the variable names, I have simply separated components in the path using an underscore instead of a dot. Also, I have converted the path string to its lower case form. For example, the TreeNode for the path `Gene.homologues.dataSets.name` will have variable name `gene_homologues_datasets_name`. This approach is fine till we don't exceed the max length of variable name for a path.
 
-## Clause Creation
-
-#### Some background
+#### TreeNode Description
 
 A TreeNode for the path `Gene.chromosome.gene.length`, stores the following information.
 
+- 'type' : Whether this TreeNode represents a Graphical Node or Relationship or a Property on them.
 - `name` : The last component of the path, i.e. length.
 - `variable name` : The one we generated using approach shown above, i.e. gene_chromosome_gene_length.
 - `graphical name` : This is the name by which we refer this entity/property in the InterMine Neo4j graph. Here we keep it same as `name`, i.e. length.
+
+## Clause Creation
 
 #### RETURN
 
