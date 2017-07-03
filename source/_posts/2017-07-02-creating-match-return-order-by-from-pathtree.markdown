@@ -58,6 +58,8 @@ RETURN b
 ORDER BY b.symbol
 {% endhighlight %}
 
+For more information, please refer to [Neo4j Developer Manual](http://neo4j.com/docs/developer-manual/current/cypher/).
+
 ## Assigning variable names to TreeNodes
 
 We see that variable names are crucial in a Cypher query. A PathTree represents all the paths in the corresponding PathQuery. Since we can have a constraint/view/order on any path, therefore we need to assign variable name to each node of the PathTree.
@@ -72,7 +74,7 @@ To create the variable names, I have simply separated components in the path usi
 
 A TreeNode for the path `Gene.chromosome.gene.length`, stores the following information.
 
-- 'type' : Whether this TreeNode represents a Graphical Node or Relationship or a Property on them.
+- `type` : Whether this TreeNode represents a Graphical Node or Relationship or a Property on them.
 - `name` : The last component of the path, i.e. length.
 - `variable name` : The one we generated using approach shown above, i.e. gene_chromosome_gene_length.
 - `graphical name` : This is the name by which we refer this entity/property in the InterMine Neo4j graph. Here we keep it same as `name`, i.e. length.
@@ -81,7 +83,7 @@ A TreeNode for the path `Gene.chromosome.gene.length`, stores the following info
 
 #### RETURN
 
-The return clause always starts with the *RETURN* keyword. After that, we simply append the variable name and the respective graphical name for each `View's` path of the PathQuery.
+The return clause always starts with the *RETURN* keyword. After that, for each view in the PathQuery, we add an expression separated by commas. The expression consists of the variable name and the respective graphical name.
 
 {% highlight java %}
 private static void createReturnClause(Query query, PathTree pathTree, PathQuery pathQuery) {
@@ -99,7 +101,7 @@ private static void createReturnClause(Query query, PathTree pathTree, PathQuery
 
 #### ORDER BY
 
-The order by clause always starts with the *ORDER BY* keyword. After that, we simply append the variable name and the respective graphical name for each `sortOrder's` path of the PathQuery. Also, the sort type (Ascending/Descending) is also added.
+The order by clause always starts with the *ORDER BY* keyword. After that, we simply append the variable name and the respective graphical name for each `sortOrder's` path of the PathQuery. The sort type (Ascending/Descending) is also added.
 
 {% highlight java %}
 // The method that creates the order by clause
@@ -172,4 +174,4 @@ private static void createMatchClause(Query query, TreeNode treeNode) {
 }
 {% endhighlight %}
 
-In the next post I'll cover how we create the [Where](http://neo4j.com/docs/developer-manual/current/cypher/clauses/where/) clause which is most complex among all the clauses.
+In the next post, the generation of [Where](http://neo4j.com/docs/developer-manual/current/cypher/clauses/where/) clause will be covered. It is most complex of all because it involves converting around 30+ PathQuery contraints into their equivalend Cypher expressions.
