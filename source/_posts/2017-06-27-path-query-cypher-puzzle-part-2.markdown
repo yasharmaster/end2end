@@ -66,29 +66,28 @@ This way, while converting a Path Query to Cypher, we can assign a unique variab
 
 {% highlight c++ %}
 1. Take a PathQuery object as input.
-2. Retrieve the following information from the PathQuery
-	1. Views
-	2. Constraints
-	3. Sort Order
-3. Retrieve all the Paths from the Views, Constraints & Sort Order.
-4. Using the Paths, create a PathTree (please refer image attached) such that 
+2. Retrieve all the Paths from the Views, Constraints & Sort Order.
+3. Using all the Paths of PathQuery, create a PathTree such that 
 	1. Each TreeNode represents a component of the path. For example, the path "Gene.pathways.identifier" forms three TreeNodes i.e. Gene, Pathways & Identifier.
 	2. Paths with common prefix have the same common ancestor.
 	3. Root TreeNode represents a Graph Node.
 	4. All Leaves of the PathTree always represent Graph Properties.
 	5. All other Internal TreeNodes can represent either Graph Nodes or Graph Relationships.
-5. Assign a unique variable name to each Internal node of the PathTree.
+4. Generate & store a unique variable name to each Internal node of the PathTree.
 	1. This variable name will be used for referring that TreeNode in the cypher query.
 	2. For generating the variable name, we can separate each component of the path using underscores. For example, the variable name for "Gene.pathways.identifier" will be gene_pathways_identifier.
-6. Use the PathTree to generate the cypher query
-	1. For creating the Match Clause,
-		1. Simply write all the edges of the tree separated by commas after "MATCH" keyword.
-		2. Add variable name assigned in the previous step to each entity in cypher.
+5. Use the PathTree & PathQuery to generate the cypher query
+	1. For creating the Match Clause, starting with the Root, recursively match each TreeNode of the PathTree,
+		1. If the TreeNode is Root, match the node itself. e.g. (gene).
+		2. If current TreeNode is a NODE,
+			1. If its parent is also a NODE, then fetch the Relationship Type from the XML data model file and create the match as (parentNode)-[relationshipFromXml]-(currentNode).
+			2. If the parent is a RELATIONSHIP, then fetch the grand parent from the PathTree and create match as (grandParentNode)-[parentNode]-(currentNode).
+		3. If current TreeNode is a RELATIONSHIP, 
+	        	1. If current node does not have any children, then add match with an empty node as (parentNode)-[currentNode]-().
+	        	2. If current node has any children, then do nothing (they will be matched when recursion reaches the children).
 	2. For creating the WHERE clause,
-		1. For each constraint, get its path, operator & value.
-		2. Get the variableName of the last TreeNode of the path.
-		3. Add "<variableName> <operator> <value>" after the "WHERE" keyword
-		4. Add operators in between each constraint as per the constraint logic.
+		1. For each constraint in the PathQuery, generate an equivalent Cypher constraint.
+		2. In the constraint logic of the PathQuery, replace the constraint code of each constraint with its equivalent Cypher constraint.
 	3. For creating the RETURN clause
 		1. For each view, get its path
 		2. Get the variableName of the last TreeNode of the path
