@@ -86,14 +86,22 @@ A TreeNode for the path `Gene.chromosome.gene.length`, stores the following info
 The return clause always starts with the *RETURN* keyword. After that, for each view in the PathQuery, we add an expression separated by commas. The expression consists of the variable name and the respective graphical name.
 
 {% highlight java %}
-private static void createReturnClause(Query query, PathTree pathTree, PathQuery pathQuery) {
+/**
+ * Creates RETURN clause of the Cypher Query using the Path Query and Path Tree
+ *
+ * @param cypherQuery     the Cypher Query object
+ * @param pathTree  the given PathTree
+ * @param pathQuery the given PathQuery
+ */
+private static void createReturnClause(CypherQuery cypherQuery, PathTree pathTree, PathQuery pathQuery) {
     for (String path : pathQuery.getView()) {
         TreeNode treeNode = pathTree.getTreeNode(path);
-        if (treeNode.getTreeNodeType() == TreeNodeType.PROPERTY) {
-            // Return ONLY IF a property is queried !!
-            query.addToReturn(treeNode.getParent().getVariableName() + 
-        					"." + 
-        					treeNode.getGraphicalName());
+        if (treeNode != null && treeNode.getTreeNodeType() == TreeNodeType.PROPERTY) {
+            // Add to return clause ONLY IF the TreeNode represents a property !!
+            // Nodes & Relationships cannot be returned.
+            cypherQuery.addToReturn(treeNode.getParent().getVariableName()
+                                    + "."
+                                    + treeNode.getGraphicalName());
         }
     }
 }
@@ -104,29 +112,20 @@ private static void createReturnClause(Query query, PathTree pathTree, PathQuery
 The order by clause always starts with the *ORDER BY* keyword. After that, we simply append the variable name and the respective graphical name for each `sortOrder's` path of the PathQuery. The sort type (Ascending/Descending) is also added.
 
 {% highlight java %}
-// The method that creates the order by clause
-private static void createOrderByClause(Query query, PathTree pathTree, PathQuery pathQuery) {
+/**
+ * Generates Order objects from the Path Query and adds them to the Cypher Query.
+ * These will be used to create the Order By clause within the CypherQuery class.
+ *
+ * @param cypherQuery     the Cypher Query object
+ * @param pathTree  the given PathTree
+ * @param pathQuery the given PathQuery
+ */
+private static void addOrdersToCypher(CypherQuery cypherQuery, PathTree pathTree, PathQuery pathQuery) {
     List<OrderElement> orderElements = pathQuery.getOrderBy();
     for (OrderElement orderElement : orderElements) {
         Order order = new Order(orderElement, pathTree);
-        query.addToOrderBy(order.toString());
+        cypherQuery.addOrder(order);
     }
-}
-
-// Constructor of the order class
-Order(OrderElement orderElement, PathTree pathTree){
-    TreeNode treeNode = pathTree.getTreeNode(orderElement.getOrderPath());
-    propertyKey = treeNode.getGraphicalName();
-    // Store variableName of parent TreeNode
-    variableName = treeNode.getParent().getVariableName();
-    direction = orderElement.getDirection().toString();
-}
-
-// String representation of the order class object
-public String toString() {
-    return variableName + "." +
-            propertyKey + " " +
-            direction;
 }
 {% endhighlight %}
 
@@ -137,39 +136,98 @@ Creation of Match clause is rather complex. The match clause always starts with 
 The `createMatchClause()` recursive method takes in the `Query` object and the root `TreeNode` as parameters. The following code snippet shows the method in action.
 
 {% highlight java %}
-private static void createMatchClause(Query query, TreeNode treeNode) {
+/**
+ * Creates MATCH clause of the Cypher Query using the given PathTree
+ *
+ * @param cypherQuery    the Cypher Query object
+ * @param treeNode the root node of the PathTree
+ */
+private static void createMatchClause(CypherQuery cypherQuery, TreeNode treeNode) throws IOException, ModelParserException, SAXException, ParserConfigurationException {
     if (treeNode == null) {
+        throw new IllegalArgumentException("Root node of PathTree cannot be null.");
+    }
+    else if (treeNode.getTreeNodeType() == TreeNodeType.PROPERTY) {
+        // Properties don't need to be matched in the Match statement of cypher.
         return;
     }
     else if (treeNode.getParent() == null) {
         // Root TreeNode is always a Graph Node
-        query.addToMatch("(" + treeNode.getVariableName() +
+        cypherQuery.addToMatch("(" + treeNode.getVariableName() +
                          " :" + treeNode.getGraphicalName() + ")");
     }
-    else if (treeNode.getTreeNodeType() == TreeNodeType.NODE) {
-        if (treeNode.getParent().getTreeNodeType() == TreeNodeType.NODE) {
-            // If current TreeNode is a Graph Node and its parent is also a Graph Node,
-            // then add a dummy relationship.
-            query.addToMatch("(" + treeNode.getParent().getVariableName() + ")" +
-                            "-[]-(" + treeNode.getVariableName() +
-                            " :" + treeNode.getGraphicalName() + ")");
+    else {
+        String match = null;
+        if (treeNode.getTreeNodeType() == TreeNodeType.NODE) {
+
+            Neo4jModelParser modelParser = new Neo4jModelParser();
+            modelParser.process(new Neo4jLoaderProperties());
+            TreeNode parentTreeNode = treeNode.getParent();
+
+            if (parentTreeNode.getTreeNodeType() == TreeNodeType.NODE) {
+                // If current TreeNode is a NODE and its parent is also a NODE, then use
+                // ModelParser.getRelationshipType to fetch the Relationship Type from the
+                // XML data model file.
+                String className = parentTreeNode.getPath().getEndClassDescriptor().getSimpleName();
+                String refName = treeNode.getName();
+
+                String relationshipType = modelParser.getRelationshipType(className, refName);
+                match = "(" +
+                        parentTreeNode.getVariableName() +
+                        ")-[:" +
+                        relationshipType +
+                        "]-(" +
+                        treeNode.getVariableName() +
+                        " :" +
+                        treeNode.getGraphicalName() +
+                        ")";
+            }
+            else if (parentTreeNode.getTreeNodeType() == TreeNodeType.RELATIONSHIP) {
+                // If current TreeNode is a NODE and its parent is a RELATIONSHIP, then fetch
+                // the grand parent from the PathTree. Use relationship described by the parent
+                // TreeNode between the grand parent and the current TreeNode.
+                match = "(" +
+                        parentTreeNode.getParent().getVariableName() +
+                        ")-[" +
+                        parentTreeNode.getVariableName() +
+                        ":" +
+                        parentTreeNode.getGraphicalName() +
+                        "]-(" +
+                        treeNode.getVariableName() +
+                        " :" +
+                        treeNode.getGraphicalName() +
+                        ")";
+            }
         }
-        else if (treeNode.getParent().getTreeNodeType() == TreeNodeType.RELATIONSHIP) {
-            // If current TreeNode is a Graph Node and its parent is a Graph Relationship,
-            // then match an actual relationship of the current node with its grand parent node.
-            query.addToMatch("(" + treeNode.getParent().getParent().getVariableName() + ")" +
-                            "-[" + treeNode.getParent().getVariableName() +
-                            ":" + treeNode.getParent().getGraphicalName() + "]" +
-                            "-(" + treeNode.getVariableName() +
-                            " :" + treeNode.getGraphicalName() + ")");
+        else if (treeNode.getTreeNodeType() == TreeNodeType.RELATIONSHIP) {
+            // If the current TreeNode is a RELATIONSHIP and it has no children, then
+            // use this relationship between the NODE represented by the parent TreeNode
+            // and an empty node. For example, (m:Gene)-[r:LOCATED_ON]-().
+            if (treeNode.getChildrenKeys().isEmpty()) {
+                TreeNode parentTreeNode = treeNode.getParent();
+                match = "(" +
+                        parentTreeNode.getVariableName() +
+                        ")-[" +
+                        treeNode.getVariableName() +
+                        ":" +
+                        treeNode.getGraphicalName() +
+                        "]-()";
+            }
+        }
+        if (match != null) {
+            // If string is not null then any of the above 3 cases has occurred,
+            // so we must add it to MATCH or OPTIONAL MATCH clause as required.
+            if (treeNode.getOuterJoinStatus() == OuterJoinStatus.INNER) {
+                cypherQuery.addToMatch(match);
+            }
+            else {
+                cypherQuery.addToOptionalMatch(match);
+            }
         }
     }
-    // If current TreeNode represents a Graphical Relationship, then Do nothing.
-    // We will match this relationship when recursion reaches its children.
 
-    // Add all children to Match clause
+    // Recursively add all the children TreeNodes to the Match/Optional Match clause
     for (String key : treeNode.getChildrenKeys()) {
-        createMatchClause(query, treeNode.getChild(key));
+        createMatchClause(cypherQuery, treeNode.getChild(key));
     }
 }
 {% endhighlight %}

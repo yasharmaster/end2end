@@ -101,4 +101,4 @@ This way, while converting a Path Query to Cypher, we can assign a unique variab
 7. Return the generated query
 {% endhighlight %}
 
-In the next post, I'll explain the generation of each clause - MATCH, RETURN, ORDER BY, WHERE & OPTIONAL MATCH separately. Meanwhile, you can have a look at the Path Query to Cypher conversion code at [org.intermine.neo4j.cypher](https://github.com/intermine/neo4j/tree/dev/src/org/intermine/neo4j/cypher) package. 
+In the next post, I'll explain the generation of each clause - MATCH, RETURN, ORDER BY, WHERE & OPTIONAL MATCH separately. Meanwhile, you can have a look at the Path Query to Cypher conversion code at [org.intermine.neo4j.cypher](https://github.com/intermine/neo4j/tree/dev/intermine-neo4j/src/main/java/org/intermine/neo4j/cypher) package.
